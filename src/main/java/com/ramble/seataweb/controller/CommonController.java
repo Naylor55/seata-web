@@ -1,5 +1,6 @@
 package com.ramble.seataweb.controller;
 
+import com.ramble.seataweb.model.DistributedLock;
 import com.ramble.seataweb.model.GlobalTable;
 import com.ramble.seataweb.repository.DistributedLockRepository;
 import com.ramble.seataweb.repository.GlobalTableRepository;
@@ -48,11 +49,19 @@ public class CommonController {
     }
 
     @GetMapping("/distributedLock")
-    public List<GlobalTable> findDistributedLock() {
+    public List<DistributedLock> findDistributedLock() {
         Object list = distributedLockRepository.findAll();
 
         return null;
     }
+
+    @GetMapping("/distributedLock/{key}")
+    public List<DistributedLock> findDistributedLockByKey(@PathVariable("key") String key) {
+        List<DistributedLock> list = distributedLockRepository.findByLockKey(key);
+        List<DistributedLock> list1 = distributedLockRepository.findByKey(key);
+        return list;
+    }
+
 
     @GetMapping("/global/{applicationId}")
     public List<GlobalTable> findGlobalTableByApplicationId(@PathVariable("applicationId") String applicationId) {
